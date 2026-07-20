@@ -1,5 +1,5 @@
 # CMakeLists-Template-for-Raylib-Raygui
-A cmakelists for raylib&amp;raygui.You can just modify few params to have a 
+A cmakelists for raylib&amp;raygui.You can just modify few params to have a satisfying experience
 
 ## How to use it
 1. make sure that CMake is installed on your PC
