@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.14)
 #################################################################
 # **** ---------------------ATTENTION--------------------- **** #
 # ****     program CANT be compiled without this macro     **** #
@@ -13,15 +13,16 @@ cmake_minimum_required(VERSION 3.11)
 ### please modify following vars    \||/                        #
 ###                                  \/                         #
 #################################################################
-project(your project name) # your project name here             #
+project(your_project_name) # your project name here             #
 set(CMAKE_C_STANDARD 23) # modify it for other vers of C        #
 #set(CMAKE_CXX_STANDARD 26) # rm comment to use CPP             #
 set(RAYLIB_VERSION 6.0) # modify it for other vers of raylib    #
 set(RAYGUI_VERSION 4.0) # modify it for other vers of raygui    #
-set(PROJECT_SOURCES ???) # your sources here                    #
-set(PROJECT_INCLUDE_DIRS "") # your extendsional libs here      #
+set(PROJECT_SOURCES_DIRS "src") # your sources here             #
+set(PROJECT_INCLUDE_DIRS "include") # your additional libs here #
 #################################################################
 
+file(GLOB_RECURSE SOURCES ${PROJECT_SOURCES_DIRS}/*.c ${PROJECT_SOURCES_DIRS}/*.cpp)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 ################
@@ -36,7 +37,6 @@ find_package(raylib ${RAYLIB_VERSION} QUIET)
 if (NOT raylib_FOUND)
     FetchContent_Declare(
             raylib
-            DOWNLOAD_EXTRACT_TIMESTAMP OFF
             URL https://github.com/raysan5/raylib/archive/refs/tags/${RAYLIB_VERSION}.tar.gz
     )
     FetchContent_GetProperties(raylib)
@@ -50,7 +50,6 @@ endif()
 ################
 FetchContent_Declare(
         raygui
-        DOWNLOAD_EXTRACT_TIMESTAMP OFF
         URL https://github.com/raysan5/raygui/archive/refs/tags/${RAYGUI_VERSION}.tar.gz
 )
 FetchContent_GetProperties(raygui)
@@ -62,7 +61,7 @@ endif()
 ###############
 # The Project #
 ###############
-add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} raylib)
 target_include_directories(${PROJECT_NAME} PRIVATE ${raygui_SOURCE_DIR}/src)
 if(PROJECT_INCLUDE_DIRS)
