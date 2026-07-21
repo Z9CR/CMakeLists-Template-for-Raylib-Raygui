@@ -22,7 +22,11 @@ set(PROJECT_SOURCES_DIRS "src") # your sources here             #
 set(PROJECT_INCLUDE_DIRS "include") # your additional libs here #
 #################################################################
 
-file(GLOB_RECURSE SOURCES ${PROJECT_SOURCES_DIRS}/*.c ${PROJECT_SOURCES_DIRS}/*.cpp)
+set(SOURCES "")
+foreach(dir ${PROJECT_SOURCES_DIRS})
+    file(GLOB_RECURSE dir_sources ${dir}/*.c ${dir}/*.cpp)
+    list(APPEND SOURCES ${dir_sources})
+endforeach()
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 ################
