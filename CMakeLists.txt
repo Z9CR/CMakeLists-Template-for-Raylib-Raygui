@@ -18,7 +18,8 @@ set(CMAKE_C_STANDARD 23) # modify it for other vers of C        #
 #set(CMAKE_CXX_STANDARD 26) # rm comment to use CPP             #
 set(RAYLIB_VERSION 6.0) # modify it for other vers of raylib    #
 set(RAYGUI_VERSION 4.0) # modify it for other vers of raygui    #
-set(PROJECT_SOURCE ???) # your sources here                     #
+set(PROJECT_SOURCES ???) # your sources here                    #
+set(PROJECT_INCLUDE_DIRS "") # your extendsional libs here      #
 #################################################################
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -55,15 +56,18 @@ FetchContent_Declare(
 FetchContent_GetProperties(raygui)
 if (NOT raygui_POPULATED)
     set(FETCHCONTENT_QUIET NO)
-    FetchContent_Populate(raygui)
+    FetchContent_MakeAvailable(raygui)
 endif()
 
 ###############
 # The Project #
 ###############
-add_executable(${PROJECT_NAME} ${PROJECT_SOURCE})
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 target_link_libraries(${PROJECT_NAME} raylib)
 target_include_directories(${PROJECT_NAME} PRIVATE ${raygui_SOURCE_DIR}/src)
+if(PROJECT_INCLUDE_DIRS)
+    target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_INCLUDE_DIRS})
+endif()
 
 #######################################################################
 # Web Configurations                                                  #
